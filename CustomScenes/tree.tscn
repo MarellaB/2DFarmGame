@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1tybdikkxef8"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/Harvestable.gd" id="2_0xv52"]
+[ext_resource type="Texture2D" uid="uid://cj8afhfxthom5" path="res://Resources/Objects/tree.png" id="2_e0anl"]
+[ext_resource type="Texture2D" uid="uid://bto4ar4yay6cc" path="res://Resources/Objects/tree_chopped.png" id="3_p6kve"]
+[ext_resource type="Script" path="res://Resources/Scripts/ShakeEffect.gd" id="5_4m3u5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ab54g"]
+radius = 95.0474
+
+[node name="Tree" type="Area2D"]
+
+[node name="AliveSprite" type="Sprite2D" parent="."]
+z_index = 5
+scale = Vector2(2, 2)
+texture = ExtResource("2_e0anl")
+
+[node name="DeadSprite" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+texture = ExtResource("3_p6kve")
+
+[node name="HarvestableNode" type="Node2D" parent="." node_paths=PackedStringArray("AliveSprite", "DeadSprite")]
+script = ExtResource("2_0xv52")
+AliveSprite = NodePath("../AliveSprite")
+DeadSprite = NodePath("../DeadSprite")
+
+[node name="ShakeEffect" type="Node" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("5_4m3u5")
+sprite = NodePath("../AliveSprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ab54g")

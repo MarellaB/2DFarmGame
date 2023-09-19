@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://l4sm5sxmf64v"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_8et41"]
+[ext_resource type="Texture2D" uid="uid://ck6qv2ofqbq8r" path="res://Resources/Characters/green_character.png" id="2_wv3gk"]
+[ext_resource type="Texture2D" uid="uid://bn5a8osdss52" path="res://Resources/Characters/green_hand.png" id="3_m7p6g"]
+[ext_resource type="Script" path="res://Resources/Scripts/Inventory.gd" id="4_fqtge"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s0yqh"]
+radius = 21.4767
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fmj0l"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j1pa1"]
+radius = 64.0312
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 1
+position = Vector2(541, 254)
+collision_layer = 2
+script = ExtResource("1_8et41")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_wv3gk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0.5)
+shape = SubResource("CircleShape2D_s0yqh")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+metadata/FollowTarget = NodePath("..")
+
+[node name="Hands" type="Node2D" parent="."]
+
+[node name="Left" type="Area2D" parent="Hands"]
+position = Vector2(26, -28)
+
+[node name="Sprite" type="Sprite2D" parent="Hands/Left"]
+texture = ExtResource("3_m7p6g")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="Hands/Left"]
+shape = SubResource("CircleShape2D_fmj0l")
+
+[node name="Right" type="Area2D" parent="Hands"]
+position = Vector2(26, 28)
+
+[node name="Sprite" type="Sprite2D" parent="Hands/Right"]
+texture = ExtResource("3_m7p6g")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="Hands/Right"]
+shape = SubResource("CircleShape2D_fmj0l")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="InteractionCircle" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_j1pa1")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("4_fqtge")
+
+[connection signal="area_entered" from="InteractionArea" to="." method="_on_interaction_area_area_entered"]
